@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+
+    <!-- Adding some fancy styling for better presentation -->
+    <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      background-color: #333;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+    }
+
+    .left {
+      display: flex;
+      align-items: center; /* Vertically center the content */
+    }
+
+    .right {
+      display: flex;
+      align-items: center; /* Vertically center the content */
+    }
+
+    .owner {
+      color: white;
+      font-size: 24px; /* Increase font size as desired */
+      text-decoration: none; /* Remove underline */
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      margin: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+        .product-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1.title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .container {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-image {
+            max-width: 150px;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-info {
+            flex: 1;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .price {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #21a745;
+        }
+
+        .add-to-cart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            padding: 20px;
+        }
+
+        .quantity-input {
+            width: 50px;
+            margin-top: 10px;
+            padding: 5px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .add-to-cart button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+        
+    .add-to-cart button:hover {
+            background-color: #0056b3;
+    }
+    .search-container {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .search-input {
+      width: 300px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .search-button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    </style>
+
+</head>
+<body>
+    <div class="navbar">
+        <div class="left">
+          <a class="owner" href="/products">Flask-Shoppee</a>
+        </div>
+        <div class="search-container">
+          <form action="/search" method="POST">
+            <input type="text" class="search-input" id="searchInput" name="search" placeholder="Search...">
+            <button class="search-button" >Search</button>
+            </form>
+          </div>
+        <div class="right">
+          <a href="/cart">
+            <button>Cart</button>
+          </a>
+          <a href="/logout">
+            <button>Log out</button>
+          </a>
+        </div>
+      </div>
+    
+    <div class="product-list">
+        <h1 class="title">Search Results</h1>
+        <!-- ADDING A LOOP TO MAKE SURE THE VARIOUS PRODUCTS ARE LOADED IN -->
+        {% for product in products %}
+        <!-- CREATING CATEGORY NAME FROM CATEGORY ID -->
+        
+        <div class="container">
+            <div class="product-info">
+                <h1>{{ product.product_name }}</h1>
+                <p>
+                    {{ product.product_description }}
+                    <!-- Add more details about the product in this paragraph -->
+                </p>
+                <p class="price">Price: ₹ {{ product.product_price }}</p>
+                <!-- <p>Quantity: {{ product.product_quantity }}</p> -->
+                <p>Category: {% for Category in categories %}
+                    {% if Category.id == product.category_id %}
+                    {{ Category.category_name }}
+                    {% endif %}
+                    {% endfor %}</p>
+                <!-- <p>Created At: {{ product.created_at }}</p> -->
+            </div>
+            <img class="product-image" src="{{ url_for('static', filename=product.product_image) }}" alt="Product Image">
+            <div class="add-to-cart">
+                <form method="post" action="{{ url_for('add_to_cart')}}">
+                    <input name="product_name" value="{{ product.product_name }}" hidden>
+                    <input name="quantity-input" class="quantity_input" type="number" value="1" min="1" max="{{ product.product_quantity }}">
+                    <!-- <button onclick="add_to_cart({ products(id) } , { quantity_input } );">Add to Cart</button> -->
+                    <!-- <a href="/addtocart/{ product.id }"> -->
+                        <button type="submit">Add to Cart</button>
+                    <!-- </a> -->
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+<script>
+    // function performSearch() {
+    //   var input, filter, categories, category, productName, categoryName, expiryDate;
+    //   input = document.getElementById("searchInput");
+    //   filter = input.value.toLowerCase();
+    //   categories = document.getElementsByClassName("category");
+  
+    //   for (var i = 0; i < categories.length; i++) {
+    //     category = categories[i];
+    //     productName = category.getElementsByTagName("h3")[0].innerText.toLowerCase();
+    //     categoryName = category.getElementsByTagName("p")[0].innerText.toLowerCase();
+    //     expiryDate = category.getElementsByTagName("p")[1].innerText.toLowerCase();
+        
+    //     if (productName.includes(filter) || categoryName.includes(filter) || expiryDate.includes(filter)) {
+    //       category.style.display = "";
+    //     } else {
+    //       category.style.display = "none";
+    //     }
+    //   }
+    // }
+  </script>
+</html>

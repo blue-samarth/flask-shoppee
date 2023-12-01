@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #2a6496;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #f7f9fc;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #2a6496;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+            color: #2a6496;
+        }
+
+        input[type="file"] {
+            margin-top: 10px;
+        }
+
+        select {
+            height: 34px;
+        }
+
+        input[type="submit"] {
+            background-color: #2a6496;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #1c476e;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Product</h1>
+    <form method="post" action="/adminproducts/edit/{{ product.id }}" enctype="multipart/form-data">
+        <label for="product_name">Product Name:</label>
+        <input type="text" value="{{ product.product_name }}" class="form-control" name="product_name" required>
+
+        <label for="product_price">Product Price:</label>
+        <input type="number" value="{{ product.product_price }}" class="form-control" name="product_price" step="0.01" required>
+
+        <label for="product_quantity">Product Quantity:</label>
+        <input type="number" value="{{ product.product_quantity }}"  class="form-control" name="product_quantity" required>
+
+        <label for="product_description">Product Description:</label>
+        <textarea class="form-control" value="{{ product.product_description }}" name="product_description" rows="4" required></textarea>
+
+        <label for="product_image">Product Image:</label>
+        <input type="file" value="{{ product.product_image }}" class="form-control" name="product_image" accept="image/*" required>
+
+        <label for="best_before">Best Before:</label>
+        <input type="date" value="{{ product.best_before }}" class="form-control" name="best_before" required>
+
+        <!-- Assuming you have a list of categories to select from -->
+        <label for="category">Category:</label>
+        <select class="form-control" name="category" required>
+            <option value="">Select Category</option>
+            {% for category in categories %}
+            <option name="category" value="{{ category.id }}">{{ category.category_name }}</option>
+            {% endfor %}
+        </select>
+        <div>
+            <a href="{{ url_for('admin_products') }}" style="display: block;">
+                <button style="background-color: #4CAF50;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    text-align: center;
+                    text-decoration: none;
+                    font-size: 16px;
+                    margin: 8px;
+                    cursor: pointer;">
+                    Return to Products
+                </button>
+            </a>
+            <input type="submit" class="btn btn-primary" value="Edit Product">
+        </div>
+    </form>
+</body>
+</html>

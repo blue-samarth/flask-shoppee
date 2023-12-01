@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Categories</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      background-color: #333;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+    }
+
+    .left {
+      display: flex;
+      align-items: center; /* Vertically center the content */
+    }
+
+    .right {
+      display: flex;
+      align-items: center; /* Vertically center the content */
+    }
+
+    .owner {
+      color: white;
+      font-size: 24px; /* Increase font size as desired */
+      text-decoration: none; /* Remove underline */
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      margin: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .category {
+      width: 300px;
+      margin: 10px;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .category:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .category h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #007bff;
+    }
+
+    .category p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      color: #444;
+    }
+
+    .category-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .delete-category,
+    .edit-category {
+      text-decoration: none;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .delete-category {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .edit-category {
+      background-color: #ffc107;
+      color: black;
+    }
+
+    .delete-category:hover,
+    .edit-category:hover {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .add-category {
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: background-color 0.3s;
+    }
+
+    .add-category:hover {
+      background-color: #239437;
+    }
+
+    .modal-header {
+      background-color: #007bff;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="left">
+      <a class="owner" href="/home_admin">Admin's Dashboard</a>
+    </div>
+    <div class="right">
+        <!-- <a href="#">
+            <button></button> -->
+      <a href="#">
+        <button>Summary</button>
+      </a>
+      <a href="/logout">
+        <button>Log out</button>
+      </a>
+    </div>
+  </div>
+
+
+  <h1>Categories</h1>
+  <div class="categories">
+    {% for category in categories %}
+      <div class="category">
+        <h3>{{ category.category_name }}</h3>
+        <p>{{ category.category_description }}</p>
+        <div class="category-actions">
+          <a href="/admincategories/delete/{{ category.id }}" class="delete-category" onclick="del()" >Delete</a>
+          <a href="/admincategories/edit/{{ category.id }}" class="edit-category" onclick="edit()">Edit</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="text-center">
+    <form>
+    <button type="button" id="ac100" class="add-category" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+        Add Category
+      </button>
+    </form>
+    <a href="/home_admin">
+      <button>Return</button>
+    </a>
+  </div>
+
+    <!-- Bootstrap Modal for Adding Category -->
+  <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <form method="post" action="/admincategories/add">
+                      <div class="mb-3">
+                          <label for="category_name" class="form-label">Category Name:</label>
+                          <input type="text" class="form-control" name="category_name" required>
+                      </div>
+                      <div class="mb-3">
+                          <label for="category_description" class="form-label">Category Description:</label>
+                          <textarea class="form-control" name="category_description" rows="4" required></textarea>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary">Add Category</button>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- <div class="delete-category-dropdown">
+    {% for category in categories %}
+      <a href="/admincategories/delete/{{ category.id }}">Delete {{ category.category_name }}</a>
+    {% endfor %}
+  </div> -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    {% if flag %}
+      document.getElementById("ac100").click();
+    {% endif %}
+    function del(){
+      confirm("Are you sure you want to delete this category?")
+    }
+    function edit(){
+      confirm("Are you sure you want to edit this category?")
+    }
+  </script>
+</body>
+</html>

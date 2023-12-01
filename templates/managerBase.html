@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      background-color: #333;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+    }
+
+    .left {
+      display: flex;
+      align-items: center; /* Vertically center the content */
+    }
+
+    .right {
+      display: flex;
+      align-items: center; /* Vertically center the content */
+    }
+
+    .owner {
+      color: white;
+      font-size: 24px; /* Increase font size as desired */
+      text-decoration: none; /* Remove underline */
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      margin: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    /* Optional: Adjust the button styles as needed */
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="left">
+      <a class="owner" href="/home_admin">Admin's Dashboard</a>
+    </div>
+    <div class="right">
+      <a href="#">
+        <button>Summary</button>
+      </a>
+      <a href="/home_admin">
+        <button>Log out</button>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

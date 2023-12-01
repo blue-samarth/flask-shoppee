@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .navbar {
+      background-color: #333;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+    }
+
+    .left {
+      display: flex;
+      align-items: center; /* Vertically center the content */
+    }
+
+    .right {
+      display: flex;
+      align-items: center; /* Vertically center the content */
+    }
+
+    .owner {
+      color: white;
+      font-size: 24px; /* Increase font size as desired */
+      text-decoration: none; /* Remove underline */
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      margin: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: #2a6496;
+            color: white;
+            border: none;
+            padding: 40px 60px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 24px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .button:hover {
+            background-color: #1c476e;
+        }
+
+        .table-container {
+            width: 30%;
+            margin-left: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="navbar">
+        <div class="left">
+          <a class="owner" href="/home_admin">Admin's Dashboard</a>
+        </div>
+        <div class="right">
+            <!-- <a href="#">
+                <button></button> -->
+          <a href="/summary">
+            <button>Summary</button>
+          </a>
+          <a href="/logout">
+            <button>Log out</button>
+          </a>
+        </div>
+      </div>
+
+
+    <div class="button-container">
+        <a href='{{ url_for("admin_categories") }}'>
+            <button class="button"> CATEGORIES </button>
+        </a>
+        <a href='{{ url_for("admin_products") }}'>
+            <button class="button"> PRODUCTS </button>
+        </a>
+    </div>
+    <div class="button-container">
+        <a href='{{ url_for("admin_users") }}'>
+            <button class="button"> USERS </button>
+        </a>
+    </div>
+    <div class="table-container">
+        <h2>Low Inventory Products</h2>
+        <table>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+            </tr>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.product_name }}</td>
+                <td>{{ product.product_quantity }}</td>
+            </tr>
+            {% endfor %}
+            <!-- Add more rows as needed -->
+        </table>
+    </div>
+</body>
+</html>
